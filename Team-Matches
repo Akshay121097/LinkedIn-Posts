@@ -1,0 +1,51 @@
+
+Link: https://www.linkedin.com/posts/sagar-rathi-big-data-917902110_table-teams-activity-6939063661940330496-DE26/?utm_source=linkedin_share&utm_medium=android_app
+
+
+create table Teams
+(
+team_id int,
+team_name varchar(50)
+);
+
+create table Matches
+(
+home_team_id int  ,
+ away_team_id   int,
+ home_team_goals  int,
+away_team_goals int
+);
+
+insert into Teams
+values
+(1,'Ajax'),(4,'Dortmund'),(6,'Arsenal');
+
+insert into Matches
+values
+(1,4,0,1),(1,6,3,3),(4,1,5,2),(6,1,0,0);
+
+************************************************************************************************
+
+select * from Matches;
+select * from Teams;
+
+
+with cte as (select home_team_id as team_id,home_team_goals as goals_for,away_team_goals as goals_against,
+case when home_team_goals>away_team_goals then 3 
+     when home_team_goals = away_team_goals then 1
+     else 0 
+     end as points
+from Matches
+union all
+select away_team_id as team_id,away_team_goals as goals_for,home_team_goals as goals_against,
+case when home_team_goals<away_team_goals then 3 
+     when home_team_goals = away_team_goals then 1
+     else 0 
+     end as points
+from Matches)
+
+select team_name,  count(1) as matches,sum(goals_for) as goal_for , sum(goals_against) as goal_against ,sum(points) as points
+from cte
+inner join Teams
+on cte.team_id =Teams.team_id
+group by 1;
