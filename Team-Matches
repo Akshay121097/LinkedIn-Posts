@@ -49,3 +49,14 @@ from cte
 inner join Teams
 on cte.team_id =Teams.team_id
 group by 1;
+
+**********************************************************************************
+
+Output:
+
+team_name | matches | goal_for | goal_against | points 
+-----------+---------+----------+--------------+--------
+ Ajax      |       4 |        5 |            9 |      2
+ Dortmund  |       2 |        6 |            2 |      6
+ Arsenal   |       2 |        3 |            3 |      2
+(3 rows)
